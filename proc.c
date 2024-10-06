@@ -532,3 +532,28 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+getcpu(void)
+{
+  // int cpuid = mycpu()->apicid;
+  // return cpuid;
+   int cpuid;
+  // Store the current interrupt flag status
+  int old_status = readeflags() & FL_IF; // Check if interrupts are enabled
+
+  // Disable interrupts if they are enabled
+  if (old_status) {
+    cli(); // Disable interrupts
+  }
+
+  cpuid = mycpu()->apicid; // Safely get the CPU ID
+
+  // Restore the previous interrupt flag status
+  if (old_status) {
+    sti(); // Re-enable interrupts
+  }
+    cprintf("the cpu id: %d",cpuid);
+  return 22; // Return the CPU ID
+
+}
