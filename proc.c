@@ -535,6 +535,12 @@ procdump(void)
   }
 }
 
+int 
+getppid(void)
+{
+  return myproc()->parent->pid;
+}
+
 int procinfo(void)
 {
 
@@ -560,5 +566,5 @@ int procinfo(void)
   
   release(&ptable.lock);
 
-  return 22;
+  return 23;
 }

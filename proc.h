@@ -56,5 +56,5 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
-
+int getppid(void);
 int procinfo(void);

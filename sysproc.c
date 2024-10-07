@@ -90,6 +90,11 @@ sys_uptime(void)
   return xticks;
 }
 
+int sys_getppid(void)
+{
+  return getppid();
+}
+
 int sys_procinfo(void)
 {
   return procinfo();
