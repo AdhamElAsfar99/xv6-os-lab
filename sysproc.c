@@ -94,3 +94,8 @@ int sys_getppid(void)
 {
   return getppid();
 }
+
+int sys_procinfo(void)
+{
+  return procinfo();
+}

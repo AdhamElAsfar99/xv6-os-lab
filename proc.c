@@ -12,6 +12,8 @@ struct {
   struct proc proc[NPROC];
 } ptable;
 
+char *states_char[] = { "UNUSED", "EMBRYO", "SLEEPING", "RUNNABLE", "RUNNING", "ZOMBIE" };
+
 static struct proc *initproc;
 
 int nextpid = 1;
@@ -537,4 +539,32 @@ int
 getppid(void)
 {
   return myproc()->parent->pid;
+}
+
+int procinfo(void)
+{
+
+  acquire(&ptable.lock);
+
+  cprintf("PID\t\t\tState\t\t\tSize\t\t\tName\n");
+
+  int i;
+  for (i = 0; i < NPROC; i++)
+  {
+    if (ptable.proc[i].state != UNUSED) {
+
+      if (strlen(states_char[ptable.proc[i].state]) >= 8)
+      {
+        cprintf("%d\t\t\t%s\t\t%d\t\t\t%s\n", ptable.proc[i].pid, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
+      }
+      else
+      {
+        cprintf("%d\t\t\t%s\t\t\t%d\t\t\t%s\n", ptable.proc[i].pid, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
+      }
+    }
+  }
+  
+  release(&ptable.lock);
+
+  return 23;
 }
