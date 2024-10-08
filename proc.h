@@ -58,3 +58,5 @@ struct proc {
 //   expandable heap
 int getppid(void);
 int procinfo(void);
+int getcpu(void);
+int gettime(void);

@@ -8,7 +8,7 @@ int main(void) {
   for (int i = 0; i < n; i++) {
     const int pid = fork();
     if (pid == 0) {
-      printf(1, "Child process: PID = %d, PPID = %d\n", getpid(), getppid());
+      printf(1, "Child process: PID = %d, PPID = %d\n, CPU = %d\n", getpid(), getppid(), getcpu());
       exit();
     } else if (pid > 0) {
     } else {

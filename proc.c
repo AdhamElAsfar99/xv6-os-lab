@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "date.h"
 
 struct {
   struct spinlock lock;
@@ -567,4 +568,54 @@ int procinfo(void)
   release(&ptable.lock);
 
   return 23;
+}
+
+int
+getcpu(void)
+{
+  // int cpuid = mycpu()->apicid;
+  // return cpuid;
+   int cpuid;
+  int old_status = readeflags() & FL_IF; 
+
+  if (old_status) {
+    cli(); 
+  }
+
+  cpuid = mycpu()->apicid; 
+
+  if (old_status) 
+  {
+    sti(); 
+  }
+    // cprintf("the cpu id: %d",cpuid);
+  return cpuid; // Return the CPU ID
+
+}
+
+int gettime()
+{
+	// if (date(&r)) 
+	// {
+	// 	cprintf("date failed\n");
+	// 	exit();
+	// }
+
+  struct rtcdate r;
+
+	if(r.minute+30>59)
+	{
+		r.hour += 6;
+		r.minute = r.minute+30-59;
+	}
+	else
+	{
+		r.hour += 5;
+		r.minute += 30;
+	}
+	if(r.hour>=24)
+		r.hour -= 24;
+	cprintf(" %d:%d:%d",r.hour,r.minute,r.second);
+
+  return 25;
 }

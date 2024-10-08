@@ -99,3 +99,16 @@ int sys_procinfo(void)
 {
   return procinfo();
 }
+
+int sys_getcpu(void)
+{
+  return getcpu();
+}
+
+int sys_gettime(void)
+{
+  struct rtcdate *r;
+      if(argptr(0, (void*)&r, sizeof(r)) < 0)
+       return -1;
+  return gettime();
+}
