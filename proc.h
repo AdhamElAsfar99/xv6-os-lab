@@ -1,3 +1,7 @@
+#define DEFAULT_PRIORITY 1
+#define MIN_PRIORITY 1
+#define MAX_PRIORITY 20
+
 // Per-CPU state
 struct cpu {
   uchar apicid;                // Local APIC ID
@@ -49,6 +53,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  int priority;                // Process priority
 };
 
 // Process memory is laid out contiguously, low addresses first:
@@ -59,3 +64,4 @@ struct proc {
 int getppid(void);
 int procinfo(void);
 int getcpu(void);
+int setpriority(int pid, int pr);

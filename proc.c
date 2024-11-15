@@ -91,6 +91,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = DEFAULT_PRIORITY;
 
   release(&ptable.lock);
 
@@ -547,7 +548,7 @@ int procinfo(void)
 
   acquire(&ptable.lock);
 
-  cprintf("PID\t\t\tState\t\t\tSize\t\t\tName\n");
+  cprintf("PID\t\t\tPriority\t\tState\t\t\tSize\t\t\tName\n");
 
   int i;
   for (i = 0; i < NPROC; i++)
@@ -556,11 +557,11 @@ int procinfo(void)
 
       if (strlen(states_char[ptable.proc[i].state]) >= 8)
       {
-        cprintf("%d\t\t\t%s\t\t%d\t\t\t%s\n", ptable.proc[i].pid, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
+        cprintf("%d\t\t\t%d\t\t\t%s\t\t%d\t\t\t%s\n", ptable.proc[i].pid, ptable.proc[i].priority, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
       }
       else
       {
-        cprintf("%d\t\t\t%s\t\t\t%d\t\t\t%s\n", ptable.proc[i].pid, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
+        cprintf("%d\t\t\t%d\t\t\t%s\t\t\t%d\t\t\t%s\n", ptable.proc[i].pid, ptable.proc[i].priority, states_char[ptable.proc[i].state], ptable.proc[i].sz, ptable.proc[i].name);
       }
     }
   }
@@ -591,4 +592,24 @@ getcpu(void)
     // cprintf("the cpu id: %d",cpuid);
   return cpuid; // Return the CPU ID
 
+}
+
+int
+setpriority(int pid, int pr)
+{
+  int temp;
+  struct proc *p;
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      temp = p->priority;
+      p->priority = pr;
+      release(&ptable.lock);
+      return temp;
+    }
+  }
+
+  release(&ptable.lock);
+  return -1;
 }
