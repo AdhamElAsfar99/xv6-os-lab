@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
         exit();
     }
   }
-  printf(1, "Process id: %d   Process new pr: %d", arr[0], arr[1]);
-  
-  printf(1, "Process' old pr: %d", setpriority(arr[0], arr[1]));
+
+  printf(1, "Process %d old priority: %d\n", arr[0], setpriority(arr[0], arr[1]));
   exit();
 }
