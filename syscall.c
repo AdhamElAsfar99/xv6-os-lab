@@ -106,7 +106,6 @@ extern int sys_uptime(void);
 extern int sys_getppid(void);
 extern int sys_procinfo(void);
 extern int sys_getcpu(void);
-extern int sys_gettime(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -133,7 +132,6 @@ static int (*syscalls[])(void) = {
 [SYS_getppid] sys_getppid,
 [SYS_procinfo] sys_procinfo,
 [SYS_getcpu] sys_getcpu,
-[SYS_gettime] sys_gettime,
 };
 
 void

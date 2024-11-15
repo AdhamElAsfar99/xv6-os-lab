@@ -123,7 +123,6 @@ void            yield(void);
 int             getppid(void);
 int             procinfo(void);
 int             getcpu(void);
-int             gettime(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

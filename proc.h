@@ -59,4 +59,3 @@ struct proc {
 int getppid(void);
 int procinfo(void);
 int getcpu(void);
-int gettime(void);
