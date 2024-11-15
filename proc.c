@@ -543,7 +543,7 @@ getppid(void)
   return myproc()->parent->pid;
 }
 
-int procinfo(void)
+int printptable(void)
 {
 
   acquire(&ptable.lock);

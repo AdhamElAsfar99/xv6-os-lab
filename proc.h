@@ -62,6 +62,6 @@ struct proc {
 //   fixed-size stack
 //   expandable heap
 int getppid(void);
-int procinfo(void);
+int printptable(void);
 int getcpu(void);
 int setpriority(int pid, int pr);

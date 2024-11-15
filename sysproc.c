@@ -95,9 +95,9 @@ int sys_getppid(void)
   return getppid();
 }
 
-int sys_procinfo(void)
+int sys_printptable(void)
 {
-  return procinfo();
+  return printptable();
 }
 
 int sys_getcpu(void)

@@ -185,7 +185,7 @@ UPROGS=\
 	_sort\
 	_printstats\
 	_forkparent\
-	_listProcStats\
+	_printptable\
 	_setpriority\
 
 fs.img: mkfs README $(UPROGS)
@@ -257,7 +257,7 @@ EXTRA=\
 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
 	printf.c umalloc.c save.c sort.c printstats.c\
-	forkparent.c listProcStats.c setpriority.c\
+	forkparent.c printptable.c setpriority.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 
