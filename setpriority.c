@@ -25,6 +25,10 @@ int main(int argc, char *argv[])
     }
   }
 
-  printf(1, "Process %d old priority: %d\n", arr[0], setpriority(arr[0], arr[1]));
+  int check = setpriority(arr[0], arr[1]);
+  if(check == -1)
+    printf(2, "Invalid range!!\n");
+  else
+    printf(1, "Process %d old priority: %d\n", arr[0], check);
   exit();
 }
