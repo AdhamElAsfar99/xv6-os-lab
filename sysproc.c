@@ -95,12 +95,25 @@ int sys_getppid(void)
   return getppid();
 }
 
-int sys_procinfo(void)
+int sys_printptable(void)
 {
-  return procinfo();
+  return printptable();
 }
 
 int sys_getcpu(void)
 {
   return getcpu();
+}
+
+int sys_setpriority(void)
+{
+  int pid, pr;
+
+  if (argint(0, &pid) < 0 || argint(1, &pr) < 0)
+        return -1;
+
+  if (pr < MIN_PRIORITY || pr > MAX_PRIORITY)
+      return -1;
+
+  return setpriority(pid, pr);
 }
