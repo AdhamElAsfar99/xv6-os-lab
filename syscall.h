@@ -21,5 +21,6 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_getppid 22
-#define SYS_procinfo 23
+#define SYS_printptable 23
 #define SYS_getcpu 24
+#define SYS_setpriority 25
