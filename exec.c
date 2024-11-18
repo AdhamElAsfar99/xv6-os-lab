@@ -99,7 +99,6 @@ exec(char *path, char **argv)
   curproc->sz = sz;
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
-  curproc->priority = 5;
 
   int j;
   for (j = 0; curproc->name[j] == "setpriority"[j]; j++) {

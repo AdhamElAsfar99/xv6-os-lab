@@ -1,4 +1,4 @@
-#define DEFAULT_PRIORITY 1
+#define DEFAULT_PRIORITY 5
 #define MIN_PRIORITY 1
 #define MAX_PRIORITY 50
 

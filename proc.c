@@ -91,6 +91,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = DEFAULT_PRIORITY;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -203,16 +204,15 @@ fork(void)
   np->parent = curproc;
   *np->tf = *curproc->tf;
 
-  int new_priority = curproc->priority;
-  if (circuler_count % 2 == 0)
-    new_priority -= 3; // Child process has lower priority than parent process
+  static int new_priority = 30;
+  if (circuler_count % 3 == 0)
+    new_priority -= 6; // Child process has lower priority than parent process
   else
-    new_priority += 5; // Child process has higher priority than parent process
+    new_priority += 4; // Child process has higher priority than parent process
 
+  new_priority %= MAX_PRIORITY;
   if (new_priority < MIN_PRIORITY)
     new_priority = MIN_PRIORITY;
-  else if (new_priority > MAX_PRIORITY)
-    new_priority = MAX_PRIORITY;
 
   np->priority = new_priority;
   circuler_count++;
