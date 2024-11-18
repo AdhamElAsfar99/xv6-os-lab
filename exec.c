@@ -99,6 +99,20 @@ exec(char *path, char **argv)
   curproc->sz = sz;
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
+  curproc->priority = 5;
+
+  int j;
+  for (j = 0; curproc->name[j] == "setpriority"[j]; j++) {
+    if (j == 10) {
+      curproc->priority = 50;
+      break;
+    }
+  }
+  if (curproc->name[0] == 's' && curproc->name[1] == 'h')
+  {
+    curproc->priority = 50;
+  } 
+  
   switchuvm(curproc);
   freevm(oldpgdir);
   return 0;

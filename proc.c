@@ -91,8 +91,6 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-  p->priority = DEFAULT_PRIORITY;
-
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -187,6 +185,7 @@ fork(void)
   int i, pid;
   struct proc *np;
   struct proc *curproc = myproc();
+  static int circuler_count = 1; // To make the priority of the child process higher than the parent process
 
   // Allocate process.
   if((np = allocproc()) == 0){
@@ -203,6 +202,20 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
+
+  int new_priority = curproc->priority;
+  if (circuler_count % 2 == 0)
+    new_priority -= 3; // Child process has lower priority than parent process
+  else
+    new_priority += 5; // Child process has higher priority than parent process
+
+  if (new_priority < MIN_PRIORITY)
+    new_priority = MIN_PRIORITY;
+  else if (new_priority > MAX_PRIORITY)
+    new_priority = MAX_PRIORITY;
+
+  np->priority = new_priority;
+  circuler_count++;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;

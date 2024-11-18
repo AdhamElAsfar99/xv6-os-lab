@@ -1,6 +1,6 @@
 #define DEFAULT_PRIORITY 1
 #define MIN_PRIORITY 1
-#define MAX_PRIORITY 20
+#define MAX_PRIORITY 50
 
 // Per-CPU state
 struct cpu {
