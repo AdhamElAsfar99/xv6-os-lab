@@ -186,7 +186,7 @@ fork(void)
   int i, pid;
   struct proc *np;
   struct proc *curproc = myproc();
-  static int circuler_count = 1; // To make the priority of the child process higher than the parent process
+  static int circular_count = 1; // To make the priority of the child process higher than the parent process
 
   // Allocate process.
   if((np = allocproc()) == 0){
@@ -205,17 +205,17 @@ fork(void)
   *np->tf = *curproc->tf;
 
   static int new_priority = 30;
-  if (circuler_count % 3 == 0)
-    new_priority -= 6; // Child process has lower priority than parent process
+  if (circular_count % 2 == 0)
+    new_priority -= 4; // Child process has lower priority than parent process
   else
-    new_priority += 4; // Child process has higher priority than parent process
+    new_priority += 6; // Child process has higher priority than parent process
 
   new_priority %= MAX_PRIORITY;
   if (new_priority < MIN_PRIORITY)
     new_priority = MIN_PRIORITY;
 
   np->priority = new_priority;
-  circuler_count++;
+  circular_count++;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
@@ -342,6 +342,7 @@ scheduler(void)
   struct proc *p, *p1;
   struct cpu *c = mycpu();
   c->proc = 0;
+  static int circular_count = 1;
   
   for(;;){
     // Enable interrupts on this processor.
@@ -370,6 +371,16 @@ scheduler(void)
       // before jumping back to us.
       c->proc = p;
       switchuvm(p);
+
+      if (circular_count % (6000 / NPROC) == 0)
+      {
+         --(p->priority);
+      }
+      ++circular_count;
+
+      if (p->priority < MIN_PRIORITY)
+        p->priority = MIN_PRIORITY;
+      
       p->state = RUNNING;
 
       swtch(&(c->scheduler), p->context);
