@@ -92,6 +92,19 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   p->priority = DEFAULT_PRIORITY;
+
+  int j;
+  for (j = 0; p->name[j] == "setpriority"[j]; j++) {
+    if (j == 10) {
+      p->priority = 50;
+      break;
+    }
+  }
+  if (p->name[0] == 's' && p->name[1] == 'h')
+  {
+    p->priority = 50;
+  }
+  
   release(&ptable.lock);
 
   // Allocate kernel stack.
